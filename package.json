@@ -18,30 +18,6 @@
       "VITE_DEV_SERVER_URL": "http://127.0.0.1:3344/"
     }
   },
-  "build": {
-    "appId": "com.danielcoy.saveHubTube",
-    "productName": "Save Hub Tube",
-    "directories": {
-      "output": "build"
-    },
-    "files": [
-      "dist/**/*",
-      "dist-electron/**/*"
-    ],
-    "mac": {
-      "icon": "public/icon.icns",
-      "identity": null
-    },
-    "win": {
-      "icon": "public/icon.ico",
-      "sign": null
-    },
-    "linux": {
-      "icon": "public/icon.png",
-      "category": "Utility"
-    },
-    "afterPack": "build-scripts/afterPack.js"
-  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build && electron-builder -mwl",

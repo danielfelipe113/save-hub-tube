@@ -3,9 +3,9 @@
  */
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "YourAppID",
+  "appId": "com.danielcoy.saveHubTube",
   "asar": true,
-  "productName": "YourAppName",
+  "productName": "Save Hub Tube",
   "directories": {
     "output": "release/${version}"
   },
@@ -14,12 +14,15 @@
     "dist-electron"
   ],
   "mac": {
+    "icon": "public/icon.icns",
     "target": [
       "dmg"
     ],
-    "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
+    "artifactName": "${productName}-Mac-${version}-Installer.${ext}",
+    "identity": null
   },
   "win": {
+    "icon": "public/icon.ico",
     "target": [
       {
         "target": "nsis",
@@ -28,7 +31,8 @@
         ]
       }
     ],
-    "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
+    "artifactName": "${productName}-Windows-${version}-Setup.${ext}",
+    "sign": null
   },
   "nsis": {
     "oneClick": false,
@@ -37,9 +41,17 @@
     "deleteAppDataOnUninstall": false
   },
   "linux": {
+    "icon": "public/icon.png",
     "target": [
       "AppImage"
     ],
     "artifactName": "${productName}-Linux-${version}.${ext}"
-  }
+  },
+  "afterPack": "build-scripts/afterPack.js",
+  "extraResources": [
+    {
+      "from": "bin",
+      "to": "./bin"
+    }
+  ]
 }

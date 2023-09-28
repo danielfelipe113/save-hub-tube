@@ -1,9 +1,9 @@
 {
-  "name": "electron-vue-vite",
-  "version": "2.0.0",
+  "name": "save-hub-tube",
+  "version": "1.0.0",
   "main": "dist-electron/main/index.js",
-  "description": "Really simple Electron + Vue + Vite boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "description": "SaveHubTube - Youtube downloader built with Electron - Vue - Vite - yt-dlp.",
+  "author": "Daniel Coy <danielfelipe113@gmail.com>",
   "license": "MIT",
   "private": true,
   "keywords": [
@@ -18,25 +18,56 @@
       "VITE_DEV_SERVER_URL": "http://127.0.0.1:3344/"
     }
   },
+  "build": {
+    "appId": "com.danielcoy.saveHubTube",
+    "productName": "Save Hub Tube",
+    "directories": {
+      "output": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*"
+    ],
+    "mac": {
+      "icon": "public/icon.icns",
+      "identity": null
+    },
+    "win": {
+      "icon": "public/icon.ico",
+      "sign": null
+    },
+    "linux": {
+      "icon": "public/icon.png",
+      "category": "Utility"
+    },
+    "afterPack": "build-scripts/afterPack.js"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build && electron-builder",
+    "build": "vue-tsc --noEmit && vite build && electron-builder -mwl",
     "preview": "vite preview"
   },
   "devDependencies": {
     "@types/uuid": "^9.0.4",
     "@vitejs/plugin-vue": "^4.3.3",
+    "autoprefixer": "^10.4.16",
+    "daisyui": "^3.8.1",
     "electron": "^26.0.0",
     "electron-builder": "^24.6.3",
+    "postcss": "^8.4.30",
+    "rollup-plugin-copy": "^3.5.0",
+    "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6",
     "vite": "^4.4.9",
     "vite-plugin-electron": "^0.14.0",
     "vite-plugin-electron-renderer": "^0.14.5",
+    "vite-plugin-static-copy": "^0.17.0",
     "vue": "^3.3.4",
     "vue-tsc": "^1.8.8"
   },
   "dependencies": {
     "pinia": "^2.1.6",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "vue3-toastify": "^0.1.13"
   }
 }

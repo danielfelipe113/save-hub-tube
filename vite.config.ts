@@ -22,6 +22,7 @@ export default defineConfig(({ command }) => {
       }
     },
     plugins: [
+      
       vue(),
       electron([
         {
@@ -74,7 +75,23 @@ export default defineConfig(({ command }) => {
               isServe && notBundle(),
             ],
           },
-        }
+        },
+        {
+          entry: 'electron/services/ytDlpWrapper.ts',
+          vite: {
+            build: {
+              sourcemap: sourcemap ? 'inline' : undefined, // #332
+              minify: isBuild,
+              outDir: 'bin/services',
+              rollupOptions: {
+                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
+              },
+            },
+            plugins: [
+              isServe && notBundle(),
+            ],
+          },
+        },
       ]),
       // Use Node.js API in the Renderer process
       renderer(),

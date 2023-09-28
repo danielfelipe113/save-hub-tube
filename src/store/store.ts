@@ -8,7 +8,7 @@ export const useGlobalStore = defineStore('global', () => {
 	const downloadCandidates: Ref<{[key: string]: CandidateModel}> = ref({})
 	const queueUrls: Ref<string[]> = ref([])
 
-	const approvedDomains = ['www.youtube.com'];
+	const approvedDomains = ['youtube.com', 'youtu.be'];
 	const downloadStarted = ref(false);
 	
 	const candidatesLength = computed(() => {

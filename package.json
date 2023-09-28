@@ -1,6 +1,6 @@
 {
   "name": "save-hub-tube",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist-electron/main/index.js",
   "description": "SaveHubTube - Youtube downloader built with Electron - Vue - Vite - yt-dlp.",
   "author": "Daniel Coy <danielfelipe113@gmail.com>",

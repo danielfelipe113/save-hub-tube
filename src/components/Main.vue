@@ -88,7 +88,8 @@ onMounted(() => {
 
 function addToQueue() {
 	// Regex pattern to match URLs against approved domains
-	const regexPattern = new RegExp(`^https://(${globalStore.approvedDomains.join('|')})/.*$`);
+	
+	const regexPattern = new RegExp(`^(?:https?:\/\/)?(?:www\.)?(${globalStore.approvedDomains.join('|')})/.*`);
 	const urlArray = urlsString.value.split(';').filter(Boolean);
 
 	let warningMessages: string[] = [];

@@ -6,8 +6,17 @@ import { join, dirname } from 'node:path'
 export default (mainWindow: BrowserWindow) => {
 	const downloadsPath = app.getPath('downloads');
 	ipcMain.handle('download-file', (_, candidate: {url: string, id: string, simulate: boolean}) => {
-		const ytdlpWrapperPath = join(process.resourcesPath, 'bin', 'services', 'ytDlpWrapper.js');
-		const ytdlpBinPath = join(process.resourcesPath, 'bin');
+		let ytdlpWrapperPath;
+		let ytdlpBinPath;
+
+		if(app.isPackaged) {
+			ytdlpWrapperPath = join(process.resourcesPath, 'bin', 'services', 'ytDlpWrapper.js');
+			ytdlpBinPath = join(process.resourcesPath, 'bin');
+		} else {
+			ytdlpWrapperPath = join(__dirname, '../../bin', 'services', 'ytDlpWrapper.js');
+			ytdlpBinPath = join(__dirname, '../../bin');
+		}
+
 
 		const ytDlpSpawn = fork(ytdlpWrapperPath, [
 			candidate.url,

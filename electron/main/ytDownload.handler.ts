@@ -13,8 +13,8 @@ export default (mainWindow: BrowserWindow) => {
 			ytdlpWrapperPath = join(process.resourcesPath, 'bin', 'services', 'ytDlpWrapper.js');
 			ytdlpBinPath = join(process.resourcesPath, 'bin');
 		} else {
-			ytdlpWrapperPath = join(__dirname, '../../bin', 'services', 'ytDlpWrapper.js');
-			ytdlpBinPath = join(__dirname, '../../bin');
+			ytdlpWrapperPath = join(app.getAppPath(), 'bin', 'services', 'ytDlpWrapper.js');
+			ytdlpBinPath = join(app.getAppPath(), 'bin');
 		}
 
 

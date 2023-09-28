@@ -93,6 +93,10 @@ function addToQueue() {
 
 	let warningMessages: string[] = [];
 	
+	if(!urlArray.length) {
+		warningMessages.push('No URLs were added.');
+	}
+
 	urlArray.forEach(url => {
 		const trimmedUrl = url.trim();
 		if (regexPattern.test(trimmedUrl)) {
@@ -114,6 +118,7 @@ function addToQueue() {
 			warningMessages.push('Invalid or malformed URLs were not added.');
 		}
 	});
+
 	if(warningMessages.length) {
 		warningMessages.forEach(warningMessage => {
 			globalStore.showToast(warningMessage, toast.TYPE.WARNING);

@@ -71,7 +71,7 @@ const infoLabel = computed(() => {
 
 const downloadButtonText = computed(() => {
 	if(globalStore.candidatesDetailsBeingFetched.length) {
-		return 'Pending...'
+		return 'Fetching...'
 	}
 	if(globalStore.candidatesBeingDownloaded.length) {
 		return 'Downloading...'

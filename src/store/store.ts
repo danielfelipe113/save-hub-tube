@@ -29,7 +29,7 @@ export const useGlobalStore = defineStore('global', () => {
 
 	const downloadFinished = computed(() => {
 		return Object.values(downloadCandidates.value).filter((candidate) => {
-			return candidate.status === DownloadStatusEnum.COMPLETED || candidate.status === DownloadStatusEnum.FAILED;
+			return candidate.status === DownloadStatusEnum.COMPLETED || candidate.status === DownloadStatusEnum.FAILED || DownloadStatusEnum.CANCELLED;
 		}).length === Object.keys(downloadCandidates.value).length;
 	})
 
@@ -223,7 +223,16 @@ export const useGlobalStore = defineStore('global', () => {
 				}
 			})
 	}
-
+	
+	function cancelDownload(candidate: CandidateModel) {
+		return window.electron.send('cancel-download', {
+			url: candidate.url,
+			id: candidate.id
+		})
+		.then(() => {
+			downloadCandidates.value[candidate.id].status = DownloadStatusEnum.CANCELLED;
+		})
+	}
 	return {
 		// State
 		downloadCandidates,
@@ -246,6 +255,7 @@ export const useGlobalStore = defineStore('global', () => {
 		openFile,
 		openFileFolder,
 		fetchFileDetailsWithoutDownload,
+		cancelDownload,
 		showNotification
 	 }
 })

@@ -87,9 +87,6 @@ onMounted(() => {
 
 
 function addToQueue() {
-	// Regex pattern to match URLs against approved domains
-	
-	const regexPattern = new RegExp(`^(?:https?:\/\/)?(?:www\.)?(${globalStore.approvedDomains.join('|')})/.*`);
 	const urlArray = urlsString.value.split(';').filter(Boolean);
 
 	let warningMessages: string[] = [];
@@ -99,17 +96,17 @@ function addToQueue() {
 	}
 
 	urlArray.forEach(url => {
-		const trimmedUrl = url.trim();
-		if (regexPattern.test(trimmedUrl)) {
-
+		const trimmedUrlString = url.trim();
+		const urlObj = new URL(trimmedUrlString);
+		if (globalStore.approvedDomains.includes(urlObj.host.replace(/^www\./gui, ''))) {
 			// Find duplicates
-			const duplicate = Object.values(globalStore.downloadCandidates).find((download: CandidateModel) => download.url === trimmedUrl);
+			const duplicate = Object.values(globalStore.downloadCandidates).find((download: CandidateModel) => download.url === urlObj.href);
 			if(duplicate) {
-				warningMessages.push(`Duplicate URL: ${trimmedUrl}`);
+				warningMessages.push(`Duplicate URL: ${urlObj.href}`);
 			} else {
 				const newCandidate = new CandidateModel(
 					uuidv4(),
-					trimmedUrl,
+					urlObj.href,
 				);
 
 				globalStore.downloadCandidates[newCandidate.id] = newCandidate;

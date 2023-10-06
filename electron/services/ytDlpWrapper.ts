@@ -45,23 +45,23 @@ if(isSimulation) {
 const ytDlp = spawn(ytdlpPath, ytDlpParams);
 
 console.log(`Download started ${url}`)
-ytDlp.stdout.on('data', (data) => {
+ytDlp.stdout.on('data', (data: any) => {
 	process.send({ type: 'stdout', data: data.toString() });
 });
 
-ytDlp.stderr.on('data', (data) => {
+ytDlp.stderr.on('data', (data: any) => {
 	process.send({ type: 'stderr', data: data.toString() });
 });
 
-ytDlp.on('close', (code) => {
+ytDlp.on('close', (code: any) => {
 	process.send({ type: 'close', code });
 });
 
-ytDlp.on('error', (err) => {
+ytDlp.on('error', (err: any) => {
 	console.error('Error occurred:', err.message);
 });
 
-ytDlp.on('exit', (code, signal) => {
+ytDlp.on('exit', (code: any, signal: any) => {
 	console.log(`Child process exited with code ${code} and signal ${signal}`);
 });
 

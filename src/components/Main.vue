@@ -95,7 +95,7 @@ function addToQueue() {
 		warningMessages.push('No URLs were added.');
 	}
 
-	urlArray.forEach(url => {
+	urlArray.forEach((url: string) => {
 		const trimmedUrlString = url.trim();
 		const urlObj = new URL(trimmedUrlString);
 		if (globalStore.approvedDomains.includes(urlObj.host.replace(/^www\./gui, ''))) {

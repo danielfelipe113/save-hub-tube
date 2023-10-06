@@ -97,7 +97,6 @@ import { useGlobalStore } from '@/store/store';
 import { toast } from 'vue3-toastify';
 import { DownloadStatusEnum } from '@/models/Candidate.model';
 
-
 const globalStore = useGlobalStore();
 
 function copyToClipboard(text: string) {

@@ -21,14 +21,6 @@ if (!app.requestSingleInstanceLock()) {
   process.exit(0)
 }
 
-
-process.env.DIST_ELECTRON = join(__dirname, '..')
-process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
-process.env.VITE_PUBLIC = process.env.VITE_DEV_SERVER_URL
-  ? join(process.env.DIST_ELECTRON, '../public')
-  : process.env.DIST
-
-
 // Remove electron security warnings
 // This warning only shows in development mode
 // Read more on https://www.electronjs.org/docs/latest/tutorial/security
@@ -40,10 +32,11 @@ let mainWindow: BrowserWindow | null = null
 async function createWindow() {
   mainWindow = new BrowserWindow({
     title: 'Main window',
-    icon: join(process.env.VITE_PUBLIC, 'icon.icns'),
+    icon: join(__dirname, '../public/icon.png'),
     webPreferences: {
       preload: join(__dirname, 'preload.js'),
     },
+    autoHideMenuBar: true,
   })
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {

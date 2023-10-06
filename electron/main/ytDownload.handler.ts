@@ -2,9 +2,14 @@ import { ipcMain, BrowserWindow, app } from "electron";
 import { fork } from 'child_process';
 import { join, dirname } from 'node:path'
 
-
 export default (mainWindow: BrowserWindow) => {
+	const ytDlpSpawns = new Map();
 	const downloadsPath = app.getPath('downloads');
+	
+	ipcMain.handle('cancel-download', (_, candidate) => {
+		ytDlpSpawns[candidate.id].kill('SIGTERM');
+	})
+
 	ipcMain.handle('download-file', (_, candidate: {url: string, id: string, simulate: boolean}) => {
 		let ytdlpWrapperPath;
 		let ytdlpBinPath;
@@ -18,7 +23,7 @@ export default (mainWindow: BrowserWindow) => {
 		}
 
 
-		const ytDlpSpawn = fork(ytdlpWrapperPath, [
+		ytDlpSpawns[candidate.id] = fork(ytdlpWrapperPath, [
 			candidate.url,
 			downloadsPath,
 			candidate.simulate ? '1' : '0',
@@ -28,7 +33,7 @@ export default (mainWindow: BrowserWindow) => {
 		
 		let jsonOutput = ''
 
-		ytDlpSpawn.on('message', (message: any) => {
+		ytDlpSpawns[candidate.id].on('message', (message: any) => {
 			if (message.type === 'stdout') {
 				
 			
@@ -83,7 +88,7 @@ export default (mainWindow: BrowserWindow) => {
 			}
 		});
 		return 'Download started'
-		ytDlpSpawn.stdout.on('data', (data) => {
+		ytDlpSpawns[candidate.id].stdout.on('data', (data) => {
 			console.log(`yt-dlp stdout: ${data}`);
 			
 			try {
@@ -100,7 +105,7 @@ export default (mainWindow: BrowserWindow) => {
 
 		});
 	
-		ytDlpSpawn.stderr.on('data', (data) => {
+		ytDlpSpawns[candidate.id].stderr.on('data', (data) => {
 			console.log(`ytdlp stderr: ${data}`);
 			const output = data.toString();
 			
@@ -117,7 +122,7 @@ export default (mainWindow: BrowserWindow) => {
 			}
 		});
 
-		ytDlpSpawn.on('close', (code) => {
+		ytDlpSpawns[candidate.id].on('close', (code) => {
 			console.log('yt-dlp exited with code:', code);
 			const downloadsPath = app.getPath('downloads');
 			if (code !== 0) {

@@ -12,7 +12,7 @@
 					</th> -->
 					<th></th>
 					<th>Title</th>
-					<th>Url</th>
+					<th>URL</th>
 					<th>Progress</th>
 					<th>Actions</th>
 				</tr>
@@ -111,8 +111,10 @@ function copyToClipboard(text: string) {
 }
 
 function removeFromQueue(candidateId: string) {
-	delete globalStore.downloadCandidates[candidateId];
-	globalStore.showToast('Download removed from queue', toast.TYPE.SUCCESS);
+	globalStore.cancelDownload(globalStore.downloadCandidates[candidateId]).then(() => {
+		delete globalStore.downloadCandidates[candidateId];
+		globalStore.showToast('Download removed from queue', toast.TYPE.INFO);
+	});
 }
 
 </script>@/models/Candidate.model
